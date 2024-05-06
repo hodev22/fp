@@ -1,0 +1,284 @@
+<html>
+<head>
+<title>MainActivity.kt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.kt</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">myapplicationrealone</span>
+
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">Menu</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">MenuItem</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">FrameLayout</span>
+<span class="s1">import android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Toast</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">PopupMenu</span>
+<span class="s1">import androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Toolbar</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">BufferedReader</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">InputStreamReader</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">net</span><span class="s2">.</span><span class="s1">HttpURLConnection</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">net</span><span class="s2">.</span><span class="s1">URL</span>
+<span class="s1">import java</span><span class="s2">.</span><span class="s1">net</span><span class="s2">.</span><span class="s1">URLEncoder</span>
+
+
+<span class="s0">class </span><span class="s1">MainActivity : AppCompatActivity</span><span class="s2">() {</span>
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState: Bundle?</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">)</span>
+        <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">activity_main</span><span class="s2">)</span>
+
+        <span class="s0">val </span><span class="s1">toolbar : Toolbar </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">toolbar</span><span class="s2">)</span>
+        <span class="s1">toolbar</span><span class="s2">.</span><span class="s1">title </span><span class="s2">= </span><span class="s1">getString</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">string</span><span class="s2">.</span><span class="s1">app_name</span><span class="s2">)</span>
+        <span class="s1">setSupportActionBar</span><span class="s2">(</span><span class="s1">toolbar</span><span class="s2">)</span>
+
+        <span class="s3">//API 요청 수행 함수</span>
+        <span class="s1">requestApiData</span><span class="s2">()</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">requestApiData</span><span class="s2">() {</span>
+        <span class="s3">// 백그라운드 스레드에서 API 요청</span>
+        <span class="s1">Thread </span><span class="s2">{</span>
+            <span class="s0">try </span><span class="s2">{</span>
+                <span class="s0">val </span><span class="s1">apiResponse </span><span class="s2">= </span><span class="s1">fetchDataFromApi</span><span class="s2">()</span>
+                <span class="s3">// API 응답을 처리하는 코드 작성</span>
+                <span class="s3">// 예를 들어, 응답 데이터를 파싱하고 UI 업데이트를 수행할 수 있습니다.</span>
+                <span class="s1">runOnUiThread </span><span class="s2">{</span>
+                    <span class="s3">// UI 업데이트 작업 수행</span>
+                <span class="s2">}</span>
+            <span class="s2">} </span><span class="s1">catch </span><span class="s2">(</span><span class="s1">e: Exception</span><span class="s2">) {</span>
+                <span class="s3">// 예외 처리</span>
+                <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">()</span>
+            <span class="s2">}</span>
+        <span class="s2">}.</span><span class="s1">start</span><span class="s2">()</span>
+    <span class="s2">}</span>
+
+    <span class="s1">private </span><span class="s0">fun </span><span class="s1">fetchDataFromApi</span><span class="s2">()</span><span class="s1">: String </span><span class="s2">{</span>
+        <span class="s3">// 네트워크 요청을 통해 API 데이터 가져오는 코드 작성</span>
+        <span class="s3">// 요청할 URL 설정</span>
+        <span class="s0">val </span><span class="s1">apiUrl </span><span class="s2">= </span><span class="s4">&quot;http://apis.data.go.kr/1360000/HealthWthrIdxServiceV3/getOakPollenRiskIdxV3&quot;</span>
+        <span class="s0">val </span><span class="s1">url </span><span class="s2">= </span><span class="s1">URL</span><span class="s2">(</span><span class="s1">apiUrl</span><span class="s2">)</span>
+
+        <span class="s3">// HttpURLConnection을 사용하여 네트워크 요청 수행</span>
+        <span class="s0">val </span><span class="s1">connection </span><span class="s2">= </span><span class="s1">url</span><span class="s2">.</span><span class="s1">openConnection</span><span class="s2">() </span><span class="s0">as </span><span class="s1">HttpURLConnection</span>
+        <span class="s1">connection</span><span class="s2">.</span><span class="s1">requestMethod </span><span class="s2">= </span><span class="s4">&quot;GET&quot;</span>
+
+        <span class="s3">// 응답 데이터를 읽어오기</span>
+        <span class="s0">val </span><span class="s1">inputStream </span><span class="s2">= </span><span class="s1">connection</span><span class="s2">.</span><span class="s1">inputStream</span>
+        <span class="s0">val </span><span class="s1">bufferedReader </span><span class="s2">= </span><span class="s1">BufferedReader</span><span class="s2">(</span><span class="s1">InputStreamReader</span><span class="s2">(</span><span class="s1">inputStream</span><span class="s2">)) </span><span class="s3">//입력 스트림을 읽을 BufferedReader를 생성</span>
+        <span class="s0">val </span><span class="s1">response </span><span class="s2">= </span><span class="s1">StringBuilder</span><span class="s2">() </span><span class="s3">//서버 응답을 저장할 StringBuilder를 생성</span>
+        <span class="s0">var </span><span class="s1">inputLine: String? </span><span class="s3">// BufferedReader를 통해 한 줄씩 읽어와 response에 추가</span>
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">bufferedReader</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">().</span><span class="s1">also </span><span class="s2">{ </span><span class="s1">inputLine </span><span class="s2">= </span><span class="s1">it </span><span class="s2">} != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s1">response</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">inputLine</span><span class="s2">)</span>
+        <span class="s2">}</span>
+        <span class="s1">bufferedReader</span><span class="s2">.</span><span class="s1">close</span><span class="s2">() </span><span class="s3">// 작업이 끝나면 BufferedReader를 닫습</span>
+        <span class="s0">return </span><span class="s1">response</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">()</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onCreateOptionsMenu</span><span class="s2">(</span><span class="s1">menu: Menu</span><span class="s2">)</span><span class="s1">: Boolean </span><span class="s2">{</span>
+        <span class="s3">// 메뉴를 포함하는 FrameLayout의 레퍼런스 가져오기</span>
+        <span class="s0">val </span><span class="s1">menuContainer </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">&lt;</span><span class="s1">FrameLayout</span><span class="s2">&gt;(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">menu_container</span><span class="s2">)</span>
+
+        <span class="s3">// 인플레이트된 메뉴를 FrameLayout에 추가</span>
+        <span class="s0">val </span><span class="s1">overflowMenu </span><span class="s2">= </span><span class="s1">PopupMenu</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">menuContainer</span><span class="s2">)</span>
+        <span class="s1">overflowMenu</span><span class="s2">.</span><span class="s1">menuInflater</span><span class="s2">.</span><span class="s1">inflate</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">menu</span><span class="s2">.</span><span class="s1">menu</span><span class="s2">, </span><span class="s1">overflowMenu</span><span class="s2">.</span><span class="s1">menu</span><span class="s2">)</span>
+        <span class="s1">overflowMenu</span><span class="s2">.</span><span class="s1">setOnMenuItemClickListener </span><span class="s2">{ </span><span class="s1">item </span><span class="s2">-&gt;</span>
+            <span class="s3">// 메뉴 아이템을 클릭할 때 수행할 작업을 여기에 추가</span>
+            <span class="s0">true</span>
+        <span class="s2">}</span>
+        <span class="s0">return true</span>
+    <span class="s2">}</span>
+
+    <span class="s1">override </span><span class="s0">fun </span><span class="s1">onOptionsItemSelected</span><span class="s2">(</span><span class="s1">item: MenuItem</span><span class="s2">)</span><span class="s1">: Boolean </span><span class="s2">{</span>
+        <span class="s3">// MenuItem의 ID에 따라 분기</span>
+        <span class="s0">return when </span><span class="s2">(</span><span class="s1">item</span><span class="s2">.</span><span class="s1">itemId</span><span class="s2">) {</span>
+            <span class="s3">//R.id.notification의 경우</span>
+            <span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">notification </span><span class="s2">-&gt; {</span>
+                <span class="s3">//&quot;알림&quot;을 나타내는 Toast 표시</span>
+                <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;알림&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+                <span class="s0">true</span>
+            <span class="s2">}</span>
+            <span class="s3">// R.id.navi_menu_more의 경우</span>
+            <span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">navi_menu_more </span><span class="s2">-&gt; {</span>
+                <span class="s3">// &quot;더보기&quot;를 나타내는 Toast 표시</span>
+                <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s4">&quot;더보기&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">()</span>
+                <span class="s0">true</span>
+            <span class="s2">}</span>
+
+            <span class="s0">else </span><span class="s2">-&gt; {</span>
+                <span class="s3">//둘다 아니면 onOptionsItemSelected 메서드를 호출해 기본 동작 처리</span>
+                <span class="s0">super</span><span class="s2">.</span><span class="s1">onOptionsItemSelected</span><span class="s2">(</span><span class="s1">item</span><span class="s2">)</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">object </span><span class="s1">ApiExplorer </span><span class="s2">{</span>
+        <span class="s1">@Throws</span><span class="s2">(</span><span class="s1">IOException::</span><span class="s0">class</span><span class="s2">)</span>
+        <span class="s1">@JvmStatic</span>
+        <span class="s0">fun </span><span class="s1">main</span><span class="s2">(</span><span class="s1">args: Array</span><span class="s2">&lt;</span><span class="s1">String?</span><span class="s2">&gt;</span><span class="s1">?</span><span class="s2">) {</span>
+            <span class="s3">//url 주소</span>
+            <span class="s0">val </span><span class="s1">urlBuilder </span><span class="s2">=</span>
+                <span class="s1">StringBuilder</span><span class="s2">(</span><span class="s4">&quot;http://apis.data.go.kr/1360000/HealthWthrIdxServiceV3/getOakPollenRiskIdxV3&quot;</span><span class="s2">)</span>
+
+            <span class="s3">//서비스 키</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;?&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;ServiceKey&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=sTccaeq7DXkVfkJLSv9Cz45tiUlOgmL77%2FozpVwb4mA35HODx2IYcmnRno6z2I3UZqinCD04Ih%2BKbENflNiDQg%3D%3D&quot;</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//공공데이터포털에서 받은 인증키 붙이기</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;ServiceKey&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;-&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">// 페이지 번호</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;pageNo&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;1&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//한 페이지 결과 수</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;numOfRows&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;10&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//요청자료형식(XML/JSON)</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;dataType&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;XML&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//지역 번호</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;areaNo&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;1100000000&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//발표 시점 ex)‘21년 7월 6일 18시 발표'</span>
+            <span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;time&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;2024050518&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s0">val </span><span class="s1">url </span><span class="s2">= </span><span class="s1">URL</span><span class="s2">(</span><span class="s1">urlBuilder</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">())</span>
+            <span class="s0">val </span><span class="s1">conn: HttpURLConnection </span><span class="s2">= </span><span class="s1">url</span><span class="s2">.</span><span class="s1">openConnection</span><span class="s2">() </span><span class="s0">as </span><span class="s1">HttpURLConnection</span>
+
+            <span class="s1">conn</span><span class="s2">.</span><span class="s1">requestMethod </span><span class="s2">= </span><span class="s4">&quot;GET&quot;</span>
+
+            <span class="s0">val </span><span class="s1">br: BufferedReader</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">conn</span><span class="s2">.</span><span class="s1">responseCode </span><span class="s2">&gt;= </span><span class="s5">200 </span><span class="s2">&amp;&amp; </span><span class="s1">conn</span><span class="s2">.</span><span class="s1">responseCode </span><span class="s2">&lt;= </span><span class="s5">300</span><span class="s2">) {</span>
+                <span class="s1">br </span><span class="s2">= </span><span class="s1">BufferedReader</span><span class="s2">(</span><span class="s1">InputStreamReader</span><span class="s2">(</span><span class="s1">conn</span><span class="s2">.</span><span class="s1">inputStream</span><span class="s2">))</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">br </span><span class="s2">= </span><span class="s1">BufferedReader</span><span class="s2">(</span><span class="s1">InputStreamReader</span><span class="s2">(</span><span class="s1">conn</span><span class="s2">.</span><span class="s1">errorStream</span><span class="s2">))</span>
+            <span class="s2">}</span>
+            <span class="s0">val </span><span class="s1">sb </span><span class="s2">= </span><span class="s1">StringBuilder</span><span class="s2">()</span>
+            <span class="s0">var </span><span class="s1">line: String?</span>
+            <span class="s0">do </span><span class="s2">{</span>
+                <span class="s1">line </span><span class="s2">= </span><span class="s1">br</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">()</span>
+                <span class="s1">sb</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">line</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s0">while </span><span class="s2">(</span><span class="s1">line </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">)</span>
+            <span class="s1">br</span><span class="s2">.</span><span class="s1">close</span><span class="s2">()</span>
+            <span class="s1">conn</span><span class="s2">.</span><span class="s1">disconnect</span><span class="s2">()</span>
+            <span class="s1">println</span><span class="s2">(</span><span class="s1">sb</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">())</span>
+
+
+            <span class="s0">val </span><span class="s1">urlBuilder1 </span><span class="s2">=</span>
+                <span class="s1">StringBuilder</span><span class="s2">(</span><span class="s4">&quot;http://apis.data.go.kr/1360000/HealthWthrIdxServiceV3/getPinePollenRiskIdxV3&quot;</span><span class="s2">)</span>
+
+            <span class="s3">//서비스 키</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;?&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;ServiceKey&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=sTccaeq7DXkVfkJLSv9Cz45tiUlOgmL77%2FozpVwb4mA35HODx2IYcmnRno6z2I3UZqinCD04Ih%2BKbENflNiDQg%3D%3D&quot;</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//공공데이터포털에서 받은 인증키 붙이기</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;ServiceKey&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;-&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">// 페이지 번호</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;pageNo&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;1&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//한 페이지 결과 수</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;numOfRows&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;10&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//요청자료형식(XML/JSON)</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;dataType&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">).</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span>
+                    <span class="s4">&quot;XML&quot;</span><span class="s2">,</span>
+                    <span class="s4">&quot;UTF-8&quot;</span>
+                <span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//지역 번호</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;areaNo&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;1100000000&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+            <span class="s2">)</span>
+
+            <span class="s3">//발표 시점 ex)‘21년 7월 6일 18시 발표'</span>
+            <span class="s1">urlBuilder1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span>
+                <span class="s4">&quot;&amp;&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;time&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">toString</span><span class="s2">() + </span><span class="s4">&quot;=&quot; </span><span class="s2">+ </span><span class="s1">URLEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s4">&quot;20240503&quot;</span><span class="s2">, </span><span class="s4">&quot;UTF-8&quot;</span><span class="s2">)</span>
+            <span class="s2">)</span>
+
+
+            <span class="s0">val </span><span class="s1">br1: BufferedReader</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">conn</span><span class="s2">.</span><span class="s1">responseCode </span><span class="s2">&gt;= </span><span class="s5">200 </span><span class="s2">&amp;&amp; </span><span class="s1">conn</span><span class="s2">.</span><span class="s1">responseCode </span><span class="s2">&lt;= </span><span class="s5">300</span><span class="s2">) {</span>
+                <span class="s1">br1 </span><span class="s2">= </span><span class="s1">BufferedReader</span><span class="s2">(</span><span class="s1">InputStreamReader</span><span class="s2">(</span><span class="s1">conn</span><span class="s2">.</span><span class="s1">inputStream</span><span class="s2">))</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">br1 </span><span class="s2">= </span><span class="s1">BufferedReader</span><span class="s2">(</span><span class="s1">InputStreamReader</span><span class="s2">(</span><span class="s1">conn</span><span class="s2">.</span><span class="s1">errorStream</span><span class="s2">))</span>
+            <span class="s2">}</span>
+            <span class="s0">val </span><span class="s1">sb1 </span><span class="s2">= </span><span class="s1">StringBuilder</span><span class="s2">()</span>
+            <span class="s0">var </span><span class="s1">line1: String?</span>
+            <span class="s0">do </span><span class="s2">{</span>
+                <span class="s1">line1 </span><span class="s2">= </span><span class="s1">br</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">()</span>
+                <span class="s1">sb1</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">line1</span><span class="s2">)</span>
+            <span class="s2">} </span><span class="s0">while </span><span class="s2">(</span><span class="s1">line1 </span><span class="s2">!= </span><span class="s0">null</span><span class="s2">)</span>
+            <span class="s1">br1</span><span class="s2">.</span><span class="s1">close</span><span class="s2">()</span>
+            <span class="s1">conn</span><span class="s2">.</span><span class="s1">disconnect</span><span class="s2">()</span>
+            <span class="s1">println</span><span class="s2">(</span><span class="s1">sb1</span><span class="s2">.</span><span class="s1">toString</span><span class="s2">())</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
